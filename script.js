@@ -1,4 +1,3 @@
-const { time } = require('faker')
 const fetch = require('node-fetch')
 
 let start = new Date().getTime()
