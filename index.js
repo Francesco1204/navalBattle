@@ -16,9 +16,21 @@ const teams = {
 const field = []
 const ships = []
 
-const W = process.argv[2] || 6
-const H = process.argv[3] || 6
-const S = process.argv[4] || 10
+let W = process.argv[2] || 6
+let H = process.argv[3] || 6
+let S = process.argv[4] || 10
+
+W = parseInt(W)
+H = parseInt(H)
+S = parseInt(S)
+
+app.get("/map", (req, res) => {
+  res.json({
+    width: W,
+    height: H,
+    ships: S
+  })
+})
 
 const gameStatus = {
   active: true,
@@ -205,7 +217,7 @@ app.get("/fire", ({ query: { x, y, team: teamName, password } }, res) => {
 
     if (cell.hit) {
       message = "already hit"
-      score = -5
+      score
     } else {
       cell.hit = true
       cell.team = team
@@ -220,6 +232,7 @@ app.get("/fire", ({ query: { x, y, team: teamName, password } }, res) => {
           score = 10
         } else {
           cell.ship.killer = team
+          team?.killedShips.push(cell.ship.name)
           message = "killer!"
           score = 50
 

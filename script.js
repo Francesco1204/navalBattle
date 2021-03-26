@@ -1,18 +1,31 @@
 const fetch = require('node-fetch')
 
+let larghezza
+let altezza
+let navi
+
+const defCampo = async () => {
+    let campo = await fetch(`http://localhost:8080/map`)
+    campo = await campo.json()
+    larghezza = campo.width
+    altezza = campo.height
+    navi = campo.ships
+}
+
 let start = new Date().getTime()
 
 const timer = () => {
     let now = new Date().getTime()
-    while(now - start < 1500){
+    while(now - start < 1800){
         now = new Date().getTime()
     }
     start = now
 }
 
 const player = async () => {
-    for(let y = 0; y < 6; y++){
-        for(let x = 0; x < 6; x++){
+    await defCampo()
+    for(let y = 0; y < altezza; y++){
+        for(let x = 0; x < larghezza; x++){
             try{
                 let res = await fetch(`http://localhost:8080/fire?x=${x}&y=${y}&team=test&password=test`)
                 res = await res.json()
